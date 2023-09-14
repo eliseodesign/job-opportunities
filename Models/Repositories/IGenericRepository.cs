@@ -5,7 +5,7 @@
         Task<bool> Create(T model);
         Task<bool> Update(T model);
         Task<bool> Delete(int id);
-        Task<bool> Get();
-        Task<bool> GetById(int id);
+        Task<IQueryable<T>> Get();
+        Task<T> GetById(int id);
     }
 }
