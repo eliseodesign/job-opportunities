@@ -1,4 +1,5 @@
 ﻿using job_opportunities_asp_react.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace job_opportunities_asp_react.Models.Repositories
 {
@@ -9,6 +10,7 @@ namespace job_opportunities_asp_react.Models.Repositories
         {
             db = _db;
         }
+        
         public async Task<bool> Create(Applicant model)
         {
             try
@@ -22,7 +24,6 @@ namespace job_opportunities_asp_react.Models.Repositories
                 return false;
             }
         }
-
         public async Task<bool> Delete(int id)
         {
             try
@@ -36,25 +37,24 @@ namespace job_opportunities_asp_react.Models.Repositories
                 return false; 
             }
         }
-
-        public async Task<IQueryable<Applicant>> Get()
+        public async Task<IQueryable<Applicant>> GetAll()
         {
             IQueryable<Applicant> query = db.Applicants;
             return query;
         }
-
         public async Task<Applicant> GetById(int id)
         {
             return await db.Applicants.FindAsync(id);
         }
-
         public async Task<bool> Update(Applicant model)
         {
             try
             {
                 db.Applicants.Update(model);
-                await db.SaveChangesAsync();
-                return true;
+                int affectedRows = await db.SaveChangesAsync();
+
+                // Verificar si al menos una fila se actualizó
+                return affectedRows > 0;
             }
             catch (Exception ex)
             {
