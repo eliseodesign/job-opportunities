@@ -19,7 +19,7 @@ namespace job_opportunities_asp_react.Models.Repositories
                 await db.SaveChangesAsync();
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }
@@ -32,7 +32,7 @@ namespace job_opportunities_asp_react.Models.Repositories
                 await db.SaveChangesAsync();
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
                 return false; 
             }
@@ -56,7 +56,7 @@ namespace job_opportunities_asp_react.Models.Repositories
                 // Verificar si al menos una fila se actualizó
                 return affectedRows > 0;
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }
