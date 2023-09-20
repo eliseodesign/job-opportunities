@@ -6,7 +6,7 @@ using MailKit.Net.Smtp;
 
 namespace job_opportunities_asp_react.Services.Utils
 {
-    public class EmailService
+    public class EmailService : IEmailService
     {
         private readonly IConfiguration _config;
         public EmailService(IConfiguration config){

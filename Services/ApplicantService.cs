@@ -12,7 +12,9 @@ namespace job_opportunities_asp_react.Services
             repo = _repo;
         }
 
-        public Task<bool> Create(Applicant model) => repo.Create(model);
+        public async Task<bool> Create(Applicant model) {
+            return await repo.Create(model);
+        }
         
         public Task<bool> Delete(int id) => repo.Delete(id);
 

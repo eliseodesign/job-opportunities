@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using job_opportunities_asp_react.Models.Repositories;
 using job_opportunities_asp_react.Models.Entities;
 using job_opportunities_asp_react.Models.DTOs;
 using job_opportunities_asp_react.Services;
 using job_opportunities_asp_react.Services.Utils;
 
-namespace WebAppCorreo.Controllers
+namespace job_opportunities_asp_react.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
@@ -14,14 +13,16 @@ namespace WebAppCorreo.Controllers
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly IApplicantService _applicantService;
     private readonly IEmailService _emailService;
-    public AuthController(ApplicantService applicantService, IWebHostEnvironment webHostEnvironment, IEmailService emailService)
+    public AuthController(IApplicantService applicantService, IWebHostEnvironment webHostEnvironment, IEmailService emailService)
     {
       _applicantService = applicantService;
       _webHostEnvironment = webHostEnvironment;
       _emailService = emailService;
     }
 
-    [HttpPost("Login")]
+
+    [HttpPost]
+    [Route("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
       Applicant usuario = await _applicantService.Validate(request.Correo, UtilService.ConvertSHA256(request.Clave));
@@ -48,15 +49,16 @@ namespace WebAppCorreo.Controllers
       }
     }
 
-    [HttpPost("Registrar")]
-    public async Task<IActionResult> Registrar([FromBody] Applicant usuario)
+    [HttpPost]
+    [Route("register")]
+    public async Task<IActionResult> Reg([FromBody] Applicant usuario)
     {
       // if (usuario.Clave != usuario.ConfirmAccount)
       // {
       //     return BadRequest(Res.Provider("Las contraseñas no coinciden", "Error", false));
       // }
 
-      if (_applicantService.GetByEmail(usuario.Email) == null)
+      if (await _applicantService.GetByEmail(usuario.Email) == null)
       {
         usuario.Password = UtilService.ConvertSHA256(usuario.Password);
         usuario.Token = UtilService.GenerateToken();
@@ -67,7 +69,7 @@ namespace WebAppCorreo.Controllers
         if (respuesta)
         {
           string content = this.GetFileContent("Pages/Templates/VerifyEmail.html");
-          string url = string.Format("{0}://{1}{2}", Request.Scheme, Request.Host, "/Inicio/Confirmar?token=" + usuario.Token);
+          string url = string.Format("{0}://{1}{2}", Request.Scheme, Request.Host, "/api/auth/verify?token=" + usuario.Token);
 
           string htmlBody = string.Format(content, $"{usuario.FirstName} {usuario.LastName}", url);
 
@@ -83,23 +85,32 @@ namespace WebAppCorreo.Controllers
         }
         else
         {
-          return BadRequest(Res.Provider("No se pudo crear su cuenta", "Error", false));
+          return BadRequest(Res.Provider(new {}, "No se pudo crear su cuenta", false));
         }
       }
       else
       {
-        return BadRequest(Res.Provider("El correo ya se encuentra registrado", "Error", false));
+        return BadRequest(Res.Provider(new {}, $"Ya existe un usuario registrado con {usuario.Email}", false));
       }
     }
 
-    [HttpGet("Confirmar")]
-    public IActionResult Confirmar(string token)
+    [HttpGet]
+    [Route("verify")]
+    public async Task<IActionResult> Confirm(string token)
     {
-      return Ok(Res.Provider(new { token = token }, "Operación exitosa", true));
+      bool result = await _applicantService.ConfirmarToken(token);
+      if(result == true)
+      {
+         return Ok(Res.Provider("Cuenta confirmada", "Ya puede aplicar a ofertas", true));
+      }
+      else
+      {
+         return BadRequest(Res.Provider("Error al confirmar cuenta", "Error", false));
+      }
     }
 
     [HttpGet("RestartAccount")]
-    public IActionResult RestartAccount()
+    public async Task<IActionResult> RestartAccount()
     {
       return Ok(Res.Provider("RestartAccount", "Operación exitosa", true));
     }
@@ -118,7 +129,7 @@ namespace WebAppCorreo.Controllers
           string content = this.GetFileContent("Pages/Templates/ResetEmail.html");
           string url = string.Format("{0}://{1}{2}", Request.Scheme, Request.Headers["host"], "/Inicio/Actualizar?token=" + usuario.Token);
 
-          string htmlBody = string.Format(content,$"{usuario.FirstName} {usuario.LastName}", url);
+          string htmlBody = string.Format(content, $"{usuario.FirstName} {usuario.LastName}", url);
 
           EmailDTO emailDTO = new EmailDTO()
           {
@@ -141,14 +152,8 @@ namespace WebAppCorreo.Controllers
       }
     }
 
-    [HttpGet("Actualizar")]
-    public IActionResult Actualizar(string token)
-    {
-      return Ok(Res.Provider("Actualizar", "Operación exitosa", true));
-    }
-
-    [HttpPost("Actualizar")]
-    public async Task<IActionResult> Actualizar([FromBody] ActualizarRequest request)
+    [HttpPost("update")]
+    public async Task<IActionResult> Update([FromBody] ActualizarRequest request)
     {
       if (request.Clave != request.ConfirmAccount)
       {
