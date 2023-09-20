@@ -1,8 +1,22 @@
+using job_opportunities_asp_react.Models.Entities;
+using job_opportunities_asp_react.Models.Repositories;
+using job_opportunities_asp_react.Services;
+using job_opportunities_asp_react.Services.Utils;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<JobOpportunitiesContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("JobOpportunitiesContext"));
+});
+
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IGenericRepository<Applicant>, ApplicantRepository>();
+builder.Services.AddScoped<IApplicantService, ApplicantService>();
 
 var app = builder.Build();
 
