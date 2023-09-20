@@ -25,22 +25,22 @@ namespace job_opportunities_asp_react.Controllers
     [Route("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-      Applicant usuario = await _applicantService.Validate(request.Correo, UtilService.ConvertSHA256(request.Clave));
+      Applicant usuario = await _applicantService.Validate(request.Email, UtilService.ConvertSHA256(request.Password));
 
       if (usuario != null)
       {
         if (usuario.ConfirmAccount == false)
         {
-          return BadRequest(Res.Provider($"Falta confirmar su cuenta. Se le envió un correo a {request.Correo}", "Error", false));
+          return BadRequest(Res.Provider($"Falta confirmar su cuenta. Se le envió un correo a {request.Email}", "Error", false));
         }
         else if (usuario.RestartAccount == true)
         {
-          return BadRequest(Res.Provider($"Se ha solicitado RestartAccount su cuenta, favor revise su bandeja del correo {request.Correo}", "Error", false));
+          return BadRequest(Res.Provider($"Se ha solicitado RestartAccount su cuenta, favor revise su bandeja del correo {request.Email}", "Error", false));
         }
         else
         {
           // Aquí puedes devolver una respuesta de éxito personalizada si es necesario
-          return Ok(Res.Provider("Login exitoso", "Operación exitosa", true));
+          return Ok(Res.Provider(usuario, "Operación exitosa", true));
         }
       }
       else
@@ -118,7 +118,7 @@ namespace job_opportunities_asp_react.Controllers
     [HttpPost("RestartAccount")]
     public async Task<IActionResult> RestartAccount([FromBody] RestartAccountRequest request)
     {
-      Applicant usuario = await _applicantService.GetByEmail(request.Correo);
+      Applicant usuario = await _applicantService.GetByEmail(request.Email);
       if (usuario != null)
       {
         bool respuesta = await _applicantService.RestartAccount(true, usuario.Password, usuario.Token);
@@ -133,7 +133,7 @@ namespace job_opportunities_asp_react.Controllers
 
           EmailDTO emailDTO = new EmailDTO()
           {
-            To = request.Correo,
+            To = request.Email,
             Subject = "RestartAccount cuenta",
             Content = htmlBody
           };
@@ -155,12 +155,12 @@ namespace job_opportunities_asp_react.Controllers
     [HttpPost("update")]
     public async Task<IActionResult> Update([FromBody] ActualizarRequest request)
     {
-      if (request.Clave != request.ConfirmAccount)
+      if (request.Password != request.ConfirmAccount)
       {
         return BadRequest(Res.Provider("Las contraseñas no coinciden", "Error", false));
       }
 
-      bool respuesta = await _applicantService.RestartAccount(false, UtilService.ConvertSHA256(request.Clave), request.Token);
+      bool respuesta = await _applicantService.RestartAccount(false, UtilService.ConvertSHA256(request.Password), request.Token);
 
       if (respuesta)
       {
@@ -174,19 +174,19 @@ namespace job_opportunities_asp_react.Controllers
 
     public class LoginRequest
     {
-      public string Correo { get; set; }
-      public string Clave { get; set; }
+      public string Email { get; set; }
+      public string Password { get; set; }
     }
 
     public class RestartAccountRequest
     {
-      public string Correo { get; set; }
+      public string Email { get; set; }
     }
 
     public class ActualizarRequest
     {
       public string Token { get; set; }
-      public string Clave { get; set; }
+      public string Password { get; set; }
       public string ConfirmAccount { get; set; }
     }
 
