@@ -1,12 +1,12 @@
 import React from 'react';
-import { Layout } from './components/Layout';
-import './custom.css';
 
 function App() {
   return (
-    <Layout>
-      <h1>Eliseo</h1>
-    </Layout>
+    <>
+      <h1 className="text-3xl font-bold underline">
+        Hello world!
+      </h1>
+    </>
   )
 }
 
