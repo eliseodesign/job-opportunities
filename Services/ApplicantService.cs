@@ -35,7 +35,7 @@ namespace job_opportunities_asp_react.Services
                 var appl =  await applicants.FirstAsync(a => a.Email == email && a.Password == password);
                 return appl;
             }
-            catch (Exception ex)
+            catch 
             {
                 return null;
             }
@@ -53,7 +53,7 @@ namespace job_opportunities_asp_react.Services
                 var appl = await applicants.FirstAsync(a => a.Email == email);
                 return appl;
             }
-            catch (Exception ex)
+            catch
             {
                 return null;
             }
@@ -76,7 +76,7 @@ namespace job_opportunities_asp_react.Services
                 await repo.Update(existingApplicant);
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }
@@ -97,7 +97,7 @@ namespace job_opportunities_asp_react.Services
                 await repo.Update(existingApplicant);
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }
