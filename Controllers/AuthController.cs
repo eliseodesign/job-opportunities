@@ -53,11 +53,6 @@ namespace job_opportunities_asp_react.Controllers
     [Route("register")]
     public async Task<IActionResult> Reg([FromBody] Applicant usuario)
     {
-      // if (usuario.Clave != usuario.ConfirmAccount)
-      // {
-      //     return BadRequest(Res.Provider("Las contraseñas no coinciden", "Error", false));
-      // }
-
       if (await _applicantService.GetByEmail(usuario.Email) == null)
       {
         usuario.Password = UtilService.ConvertSHA256(usuario.Password);
@@ -109,13 +104,7 @@ namespace job_opportunities_asp_react.Controllers
       }
     }
 
-    [HttpGet("RestartAccount")]
-    public async Task<IActionResult> RestartAccount()
-    {
-      return Ok(Res.Provider("RestartAccount", "Operación exitosa", true));
-    }
-
-    [HttpPost("RestartAccount")]
+    [HttpPost("restart")]
     public async Task<IActionResult> RestartAccount([FromBody] RestartAccountRequest request)
     {
       Applicant usuario = await _applicantService.GetByEmail(request.Email);
@@ -174,22 +163,26 @@ namespace job_opportunities_asp_react.Controllers
 
     public class LoginRequest
     {
-      public string Email { get; set; }
-      public string Password { get; set; }
+      public required string Email { get; set; }
+      public required string Password { get; set; }
     }
 
     public class RestartAccountRequest
     {
-      public string Email { get; set; }
+      public required string Email { get; set; }
     }
 
     public class ActualizarRequest
     {
-      public string Token { get; set; }
-      public string Password { get; set; }
-      public string ConfirmAccount { get; set; }
+      public required string Token { get; set; }
+      public required string Password { get; set; }
+      public required string ConfirmAccount { get; set; }
     }
 
+    /// <summary>
+    ///  Obtener el contenido de un fichero
+    /// <param name="filePath"> ubicación realtiva desde raiz del proyecto </param>
+    /// <returns> contenido del archivo </returns>
     private string GetFileContent(string filePath)
     {
       string basePath = _webHostEnvironment.ContentRootPath;
