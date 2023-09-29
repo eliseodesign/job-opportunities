@@ -1,0 +1,44 @@
+@api = https://localhost:7048/api
+
+### Login
+POST {{api}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "eliseoarevalo29@gmail.com",
+    "password": "2480931"
+}
+
+### Register
+POST {{api}}/auth/register
+Content-Type: application/json
+
+{
+    "Email": "eliseoarevalo29@gmail.com",
+    "Password": "2480931",
+    "FirstName": "Nombre",
+    "LastName": "Apellido",
+    "Address1": "Algun lugar por ahí"
+    // Otros campos necesarios para el registro
+}
+
+### Confirmación de Cuenta
+GET {{api}}/auth/verify?token=TOKEN_AQUI
+
+### Reiniciar Cuenta
+POST {{api}}/auth/restart
+Content-Type: application/json
+
+{
+    "Email": "eliseoarevalo29@gmail.com"
+}
+
+### Actualizar Cuenta
+POST {{api}}/auth/update
+Content-Type: application/json
+
+{
+    "Token": "TOKEN_AQUI",
+    "Password": "NuevaContrasenia",
+    "ConfirmAccount": "NuevaContrasenia"
+}
