@@ -20,14 +20,14 @@ namespace job_opportunities_asp_react.Services
 
         public Task<IQueryable<Applicant>> GetAll() => repo.GetAll();
 
-        public Task<Applicant> GetById(int id) => repo.GetById(id);
+        public async Task<Applicant?> GetById(int id) => await repo.GetById(id);
 
         public Task<bool> Update(Applicant model) => repo.Update(model);
 
         /// <sumary>
         /// Login de usuario
         /// </sumary>
-        public async Task<Applicant> Validate(string email, string password)
+        public async Task<Applicant?> Validate(string email, string password)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace job_opportunities_asp_react.Services
         /// <sumary>
         /// Login de usuario
         /// </sumary>
-        public async Task<Applicant> GetByEmail(string email)
+        public async Task<Applicant?> GetByEmail(string email)
         {
             try
             {
