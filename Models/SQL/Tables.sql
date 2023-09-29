@@ -40,7 +40,7 @@ GO
 
 CREATE TABLE [Applicant] (
   [Id] int PRIMARY KEY IDENTITY(1, 1),
-  [Password] varchar(60) NOT NULL,
+  [Password] varchar(255) NOT NULL,
   [Email] varchar(100) UNIQUE NOT NULL,
   [SecondEmailAddress] varchar(100),
   [RestartAccount] bit DEFAULT (0),
