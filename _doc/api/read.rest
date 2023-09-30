@@ -1,0 +1,4 @@
+@api = https://localhost:7048/api
+
+### Login
+GET {{api}}/read
