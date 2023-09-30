@@ -1,0 +1,25 @@
+
+
+INSERT INTO FieldSector (Name) VALUES
+    ('Administration'),
+    ('Agriculture/Hunting/Fishing'),
+    ('Bank/Finance/Insurance'),
+    ('Banking/Finance'),
+    ('Building/Real estate'),
+    ('Civil Servant/Interest organisation'),
+    ('Consultant/Advisory services/Lawyer'),
+    ('Culture/Entertainment/Environment'),
+    ('Education/Pedagogic/Research'),
+    ('Health services/medicine/Social work'),
+    ('Hotel/Restaurant/Tourism'),
+    ('Industry/Production/Construction'),
+    ('IT/Telecom/Internet'),
+    ('Not for profit charity organisation'),
+    ('Oil/Gas Off-/Onshore/Marine'),
+    ('Organisation/Management/HR'),
+    ('Police/Military/Fire/Safety'),
+    ('Sales/Marketing/Media/PR'),
+    ('Student/graduate/ no experience'),
+    ('Technical and Engineering Sciences'),
+    ('Transport/Distribution/Storage/Logistics'),
+    ('Other');
