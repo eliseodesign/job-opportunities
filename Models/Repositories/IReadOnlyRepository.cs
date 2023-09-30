@@ -7,11 +7,11 @@ namespace job_opportunities_asp_react;
 /// </summary>
 public interface IReadOnlyRepository
 {
-  IQueryable<Country> getCountries();
-  IQueryable<EducationDegree> getEduDegrees();
-  IQueryable<EducationLevel> getEduLevels();
-  IQueryable<EducationSubject> getEduSubjects();
-  IQueryable<FieldSector> getSectors();
-  IQueryable<Gender> getGenders();
-  IQueryable<MaritalStatus> getMaritalStatus();
+  Task<IQueryable<Country>> getCountries();
+  Task<IQueryable<EducationDegree>> getEduDegrees();
+  Task<IQueryable<EducationLevel>> getEduLevels();
+  Task<IQueryable<EducationSubject>> getEduSubjects();
+  Task<IQueryable<FieldSector>> getSectors();
+  Task<IQueryable<Gender>> getGenders();
+  Task<IQueryable<MaritalStatus>> getMaritalStatus();
 }

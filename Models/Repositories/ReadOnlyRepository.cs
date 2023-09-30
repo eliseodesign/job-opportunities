@@ -9,37 +9,37 @@ public class ReadOnlyRepository : IReadOnlyRepository
         db = _db;
     }
 
-    public IQueryable<Country> getCountries()
+    public async Task<IQueryable<Country>> getCountries()
     {
         return db.Countries;
     }
 
-    public IQueryable<EducationDegree> getEduDegrees()
+    public async Task<IQueryable<EducationDegree>> getEduDegrees()
     {
         return db.EducationDegrees;
     }
 
-    public IQueryable<EducationLevel> getEduLevels()
+    public async Task<IQueryable<EducationLevel>> getEduLevels()
     {
         return db.EducationLevels;
     }
 
-    public IQueryable<EducationSubject> getEduSubjects()
+    public async Task<IQueryable<EducationSubject>> getEduSubjects()
     {
         return db.EducationSubjects;
     }
 
-    public IQueryable<Gender> getGenders()
+    public async Task<IQueryable<Gender>> getGenders()
     {
         return db.Genders;
     }
 
-    public IQueryable<MaritalStatus> getMaritalStatus()
+    public async Task<IQueryable<MaritalStatus>> getMaritalStatus()
     {
         return db.MaritalStatuses;
     }
 
-    public IQueryable<FieldSector> getSectors()
+    public async Task<IQueryable<FieldSector>> getSectors()
     {
         return db.FieldSectors;
     }
