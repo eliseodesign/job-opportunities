@@ -1,21 +1,21 @@
-﻿using job_opportunities_asp_react.Models.Entities;
+using job_opportunities_asp_react.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace job_opportunities_asp_react.Models.Repositories
 {
-    public class ApplicantRepository : IGenericRepository<Applicant>
+    public class EmployerRepository : IGenericRepository<Employer>
     {
         private readonly JobOpportunitiesContext db;
-        public ApplicantRepository(JobOpportunitiesContext _db)
+        public EmployerRepository(JobOpportunitiesContext _db)
         {
             db = _db;
         }
         
-        public async Task<bool> Create(Applicant model)
+        public async Task<bool> Create(Employer model)
         {
             try
             {
-                db.Applicants.Add(model);
+                db.Employers.Add(model);
                 await db.SaveChangesAsync();
                 return true;
             }
@@ -28,7 +28,7 @@ namespace job_opportunities_asp_react.Models.Repositories
         {
             try
             {
-                Applicant applicant = db.Applicants.First(a => a.Id == id);
+                Employer Employer = db.Employers.First(a => a.Id == id);
                 await db.SaveChangesAsync();
                 return true;
             }
@@ -37,20 +37,20 @@ namespace job_opportunities_asp_react.Models.Repositories
                 return false; 
             }
         }
-        public async Task<IQueryable<Applicant>> GetAll()
+        public async Task<IQueryable<Employer>> GetAll()
         {
-            IQueryable<Applicant> query = db.Applicants;
+            IQueryable<Employer> query = db.Employers;
             return query;
         }
-        public async Task<Applicant?> GetById(int id)
+        public async Task<Employer?> GetById(int id)
         {
-            return await db.Applicants.FindAsync(id);
+            return await db.Employers.FindAsync(id);
         }
-        public async Task<bool> Update(Applicant model)
+        public async Task<bool> Update(Employer model)
         {
             try
             {
-                db.Applicants.Update(model);
+                db.Employers.Update(model);
                 int affectedRows = await db.SaveChangesAsync();
 
                 // Verificar si al menos una fila se actualizó
