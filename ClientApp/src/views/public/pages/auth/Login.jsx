@@ -1,7 +1,6 @@
 import React from 'react'
-import "./login.css"
 
-function Login() {
+export function Login() {
   return (
     <>
       <section class="bg-gray-50 dark:bg-gray-900">
@@ -46,5 +45,3 @@ function Login() {
     </>
   )
 }
-
-export default Login

@@ -1,11 +1,18 @@
 import React from 'react';
-import Login from './views/Login'
+import { Routes, Route} from 'react-router-dom'
+import { Admin } from './views/admin/Admin'
+import { Public } from './views/public/Public'
+import { NotFound } from './views/NotFound'
 import './index.css'
 
 function App() {
   return (
     <>
-      <Login />
+      <Routes>
+        <Route path='/admin' element={<Admin />}/>
+        <Route path='/*' element={<Public />}/>
+        <Route path='*' element={<NotFound />}/>
+      </Routes>
     </>
   )
 }
