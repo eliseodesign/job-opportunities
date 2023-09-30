@@ -1,6 +1,6 @@
 ﻿using job_opportunities_asp_react.Models.Entities;
 
-namespace job_opportunities_asp_react.Services
+namespace job_opportunities_asp_react.Services.Interfaces
 {
     public interface IApplicantService
     {

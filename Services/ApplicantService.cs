@@ -1,5 +1,6 @@
 ﻿using job_opportunities_asp_react.Models.Entities;
 using job_opportunities_asp_react.Models.Repositories;
+using job_opportunities_asp_react.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace job_opportunities_asp_react.Services
