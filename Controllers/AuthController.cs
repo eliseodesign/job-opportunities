@@ -65,7 +65,7 @@ namespace job_opportunities_asp_react.Controllers
         if (respuesta)
         {
           string content = this.GetFileContent("Pages/Templates/VerifyEmail.html");
-          string url = string.Format("{0}://{1}{2}", Request.Scheme, Request.Host, "/api/auth/verify?token=" + usuario.Token);
+          string url = string.Format("{0}://{1}{2}", Request.Scheme, Request.Host, "/auth/" + usuario.Token);
 
           string htmlBody = string.Format(content, $"{usuario.FirstName} {usuario.LastName}", url);
 
